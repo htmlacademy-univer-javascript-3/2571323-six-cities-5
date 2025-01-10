@@ -1,11 +1,11 @@
 import { PlaceCardEntity } from '../../components/place-card/entities/interfaces';
 import PlaceCard from '../../components/place-card/place-card';
 
-type MainProps = {
+type Props = {
   places: PlaceCardEntity[];
 };
 
-function Main({ places }: MainProps): JSX.Element {
+function Main({ places }: Props): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
