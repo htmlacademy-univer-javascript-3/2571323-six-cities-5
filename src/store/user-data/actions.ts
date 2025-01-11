@@ -3,7 +3,7 @@ import { API_ROUTES, APIErrorResponse, errorHandler } from '@/api';
 import { AsyncThunkConfig } from '@/store/types';
 import { AuthInfo, UserLong } from '@/types/user';
 import { clearToken, setToken } from '@/utils/user';
-import { OfferShort } from '@/types/offer';
+import { OfferBase, OfferShort } from '@/types/offer';
 
 export const userDataActions = {
   SET_AUTHORIZATION_STATUS: 'authorizationStatus/set',
@@ -98,13 +98,14 @@ export const logout = createAsyncThunk<void, void, AsyncThunkConfig>(
     clearToken();
     thunkApi.dispatch(setAuthorizationStatus(false));
     thunkApi.dispatch(setUserData(null));
+    thunkApi.dispatch(setFavoriteOffers([]));
     thunkApi.dispatch(setUserLoading(false));
   }
 );
 
 export const addFavoriteOffer = createAsyncThunk<
   boolean,
-  OfferShort,
+  OfferBase,
   AsyncThunkConfig
 >(userDataActions.ADD_FAVORITE_OFFER, async (targetOffer, thunkApi) => {
   try {
@@ -123,7 +124,7 @@ export const addFavoriteOffer = createAsyncThunk<
 
 export const removeFavoriteOffer = createAsyncThunk<
   boolean,
-  OfferShort,
+  OfferBase,
   AsyncThunkConfig
 >(userDataActions.REMOVE_FAVORITE_OFFER, async (targetOffer, thunkApi) => {
   try {

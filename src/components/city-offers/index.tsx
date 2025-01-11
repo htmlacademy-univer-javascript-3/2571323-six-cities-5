@@ -11,7 +11,6 @@ function CityOffers(): JSX.Element {
 
   const mapPoints = useMemo(() => offersToPoints(cityOffers), [cityOffers]);
 
-  // TODO Проверить стиль карты
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -31,7 +30,9 @@ function CityOffers(): JSX.Element {
           </div>
         </section>
         <div className="cities__right-section">
-          <Map city={city} points={mapPoints}/>
+          <section className="cities__map map">
+            <Map city={city} points={mapPoints} />
+          </section>
         </div>
       </div>
     </div>

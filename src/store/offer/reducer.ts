@@ -11,7 +11,7 @@ import {
   setCommentError,
 } from './actions';
 
-type OfferState = {
+export type OfferState = {
   offer: OfferLong | null;
   comments: CommentLong[];
   nearbyOffers: OfferShort[];
