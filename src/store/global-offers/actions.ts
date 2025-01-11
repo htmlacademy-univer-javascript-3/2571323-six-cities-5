@@ -23,15 +23,15 @@ export const setError = createAction<APIErrorResponse | null>(
 export const fetchGlobalOffers = createAsyncThunk<void, void, AsyncThunkConfig>(
   GlobalOffersActions.FETCH_OFFERS,
   async (_, thunkApi) => {
+    thunkApi.dispatch(setLoading(true));
     try {
-      thunkApi.dispatch(setLoading(true));
       const { data: globalOffers } = await thunkApi.extra.api.get<OfferShort[]>(
         API_ROUTES.OFFERS.GET_GLOBAL
       );
       thunkApi.dispatch(setOffers(globalOffers));
-      thunkApi.dispatch(setLoading(false));
     } catch (error) {
       thunkApi.dispatch(setError(errorHandler(error)));
     }
+    thunkApi.dispatch(setLoading(false));
   }
 );

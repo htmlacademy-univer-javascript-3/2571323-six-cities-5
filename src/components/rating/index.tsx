@@ -20,7 +20,7 @@ function Rating({
   const starValue = `${20 * roundedValue}%`;
 
   return (
-    <div className={classNames(containerClassName, 'rating')}>
+    <div className={classNames(containerClassName, 'rating')} data-testid='component-rating'>
       <div className={classNames(starsClassName, 'rating__stars')}>
         <span style={{ width: starValue }}></span>
         <span className="visually-hidden">Rating</span>

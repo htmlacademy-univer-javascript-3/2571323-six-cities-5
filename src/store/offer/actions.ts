@@ -9,7 +9,7 @@ export const OfferActions = {
   SET_COMMENTS: 'comments/set',
   SET_NEARBY_OFFERS: 'nerbyOffers/set',
   SET_OFFER_LOADING: 'offerLoading/set',
-  SET_OFFER_ERROR: 'offerRrror/set',
+  SET_OFFER_ERROR: 'offerError/set',
   SET_COMMENT_ERROR: 'commentError/set',
   FETCH_OFFER: 'offer/fetch',
   POST_COMMENT: 'comment/post',
@@ -40,9 +40,8 @@ export const setCommentError = createAction<APIErrorResponse | null>(
 export const fetchOffer = createAsyncThunk<void, string, AsyncThunkConfig>(
   OfferActions.FETCH_OFFER,
   async (offerId: string, thunkApi) => {
+    thunkApi.dispatch(setOfferLoading(true));
     try {
-      thunkApi.dispatch(setOfferLoading(true));
-
       const { data: offer } = await thunkApi.extra.api.get<OfferLong>(
         API_ROUTES.OFFERS.GET_EXACT(offerId)
       );
@@ -56,11 +55,10 @@ export const fetchOffer = createAsyncThunk<void, string, AsyncThunkConfig>(
       thunkApi.dispatch(setOffer(offer));
       thunkApi.dispatch(setComments(comments));
       thunkApi.dispatch(setNearbyOffers(nearbyOffers));
-
-      thunkApi.dispatch(setOfferLoading(false));
     } catch (error) {
       thunkApi.dispatch(setOfferError(errorHandler(error)));
     }
+    thunkApi.dispatch(setOfferLoading(false));
   }
 );
 

@@ -14,7 +14,7 @@ function Review({ comment }: ReviewProps): JSX.Element {
   });
 
   return (
-    <li className="reviews__item">
+    <li className="reviews__item" data-testid='component-review'>
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img

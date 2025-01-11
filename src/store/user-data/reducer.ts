@@ -10,7 +10,7 @@ import {
   setFavoriteOffersError,
 } from './actions';
 
-type UserDataState = {
+export type UserDataState = {
   authorizationStatus: boolean;
   userData: UserLong | null;
   userLoading: boolean;
