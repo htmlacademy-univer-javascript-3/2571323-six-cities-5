@@ -1,22 +1,17 @@
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 
-function Error404(): JSX.Element {
-  return (
-    <div className={`page ${styles.errorPage}`}>
-      <div className={styles.errorBlock}>
-        <h1 className={styles.errorCode}>
-          404
-        </h1>
-        <h2 className={styles.errorMessage}>
-          Page not found
-        </h2>
-      </div>
-      <Link to="/" className={styles.linkMain}>
-        Main page
-      </Link>
-    </div>
-  );
-}
+const NotFound: React.FC = () => (
+  <section className={styles.container}>
+    <header className={styles.header}>
+      <p className={styles.code}>404</p>
+      <p className={styles.message}>Oops! This page doesn’t exist.</p>
+    </header>
+    <Link to="/" className={styles.homeLink}>
+      Go back to Home
+    </Link>
+  </section>
+);
 
-export default Error404;
+export default NotFound;
+
