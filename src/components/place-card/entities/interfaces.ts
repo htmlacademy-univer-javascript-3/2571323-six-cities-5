@@ -4,7 +4,7 @@ export type PlacePriceType = 'night';
 
 export type PlaceType = 'Apartment' | 'Room';
 
-export type PlaceCardEntity = {
+export interface PlaceCardEntity {
   mark?: PlaceMark;
   imageSrc: string;
   priceValue: number;
@@ -12,4 +12,4 @@ export type PlaceCardEntity = {
   starRating: 1 | 2 | 3 | 4 | 5;
   name: string;
   type: PlaceType;
-};
+}
