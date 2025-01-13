@@ -22,6 +22,9 @@ function Offer(): JSX.Element {
   const { offer, comments, nearbyOffers, offerLoading, offerError } =
     useAppSelector((state) => state.offerReducer);
 
+  const top3NearbyOffers = nearbyOffers.slice(0, 3);
+  const top10Comments = comments.slice(0, 11);
+
   useEffect(() => {
     if (id) {
       dispatch(fetchOffer(id));
@@ -29,8 +32,8 @@ function Offer(): JSX.Element {
   }, [id, dispatch]);
 
   const nearbyPoints = useMemo(
-    () => offersToPoints(nearbyOffers),
-    [nearbyOffers]
+    () => offersToPoints(top3NearbyOffers),
+    [top3NearbyOffers]
   );
 
   const activePoint = useMemo(
@@ -53,9 +56,6 @@ function Offer(): JSX.Element {
   const selectedImages =
     offer.images.length > 6 ? offer.images.slice(0, 6) : offer.images;
 
-  // TODO Только 3 ближайших предложения
-  // TODO Поправить стиль карты
-  // TODO Только 10 последних комментариев
   return (
     <div className="page">
       <Header />
@@ -83,7 +83,11 @@ function Offer(): JSX.Element {
               ) : null}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{offer.title}</h1>
-                <BookmarkButton variant='page' offer={offer} initialState={offer.isFavorite}/>
+                <BookmarkButton
+                  variant="page"
+                  offer={offer}
+                  initialState={offer.isFavorite}
+                />
               </div>
               <Rating
                 value={offer.rating}
@@ -146,22 +150,24 @@ function Offer(): JSX.Element {
                   Reviews &middot;{' '}
                   <span className="reviews__amount">{comments.length}</span>
                 </h2>
-                <ReviewsList comments={comments} />
+                <ReviewsList comments={top10Comments} />
                 {authorizationStatus ? <CommentForm offerId={id!} /> : null}
               </section>
             </div>
           </div>
-          <Map
-            city={offer.city}
-            points={activePoint ? [activePoint, ...nearbyPoints] : []}
-          />
+          <section className="offer__map map">
+            <Map
+              city={offer.city}
+              points={activePoint ? [activePoint, ...nearbyPoints] : []}
+            />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">
               Other places in the neighbourhood
             </h2>
-            <NearbyOffers offers={nearbyOffers} />
+            <NearbyOffers offers={top3NearbyOffers} />
           </section>
         </div>
       </main>

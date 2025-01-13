@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { addFavoriteOffer, removeFavoriteOffer } from '@/store/actions';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { OfferShort } from '@/types/offer';
+import { OfferBase } from '@/types/offer';
 import { APP_ROUTES } from '@/constants/routes';
 import { BOOKMARK_BUTTON_STYLES } from './constants';
 import { BookmarkButtonVariant } from './types';
 
 type BookmarkButtonProps = {
   variant: BookmarkButtonVariant;
-  offer: OfferShort;
+  offer: OfferBase;
   initialState?: boolean;
 };
 

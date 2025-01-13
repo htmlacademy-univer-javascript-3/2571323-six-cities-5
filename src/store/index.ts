@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { api } from '@/api';
+import { createAPI } from '@/api';
 import { cityOffersReducer } from './city-offers/reducer';
 import { globalOffersReducer } from './global-offers/reducer';
 import { offerReducer } from './offer/reducer';
 import { userDataReducer } from './user-data/reducer';
+
+const api = createAPI();
 
 const rootReducer = combineReducers({
   cityOffersReducer,
@@ -17,7 +19,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
-        extraArgument: { api },
+        extraArgument: { api: api },
       },
     }),
 });

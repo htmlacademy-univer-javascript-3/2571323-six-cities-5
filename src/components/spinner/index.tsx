@@ -12,7 +12,7 @@ function Spinner({ variant }: SpinnerProps): JSX.Element {
   return variant === 'inline' ? (
     spinner
   ) : (
-    <div className={`${styles.spinnerContainer} ${containerSize}`}>
+    <div className={`${styles.spinnerContainer} ${containerSize}`} data-testid='component-spinner'>
       {spinner}
     </div>
   );

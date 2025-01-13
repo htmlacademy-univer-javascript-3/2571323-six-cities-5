@@ -3,7 +3,7 @@ import { APIErrorResponse } from '@/api';
 import { OfferShort } from '@/types/offer';
 import { setOffers, setLoading, setError } from './actions';
 
-type GlobalOffersState = {
+export type GlobalOffersState = {
   offers: OfferShort[];
   loading: boolean;
   error: APIErrorResponse | null;

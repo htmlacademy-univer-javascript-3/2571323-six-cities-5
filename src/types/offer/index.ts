@@ -12,7 +12,6 @@ export type OfferBase = {
   isFavorite?: boolean;
   isPremium: boolean;
   rating: number;
-  previewImage: string;
 };
 
 export type OfferShort = OfferBase & {
