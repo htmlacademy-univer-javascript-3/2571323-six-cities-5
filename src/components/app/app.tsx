@@ -6,11 +6,8 @@ type Props = {
   places: PlaceCardEntity[];
 };
 
-const App = (props: Props): JSX.Element => (
-  <>
-    <Main places={props.places} />
-  </>
+const App = ({ places }: Props): JSX.Element => (
+  <Main places={places} />
 );
 
 export default App;
-
