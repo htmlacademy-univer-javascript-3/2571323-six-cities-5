@@ -1,63 +1,71 @@
+
 import { useRef, useEffect } from 'react';
+
 import { Icon, Marker, layerGroup } from 'leaflet';
-import useMap from '@/hooks/use-map/use-map';
-import { City } from '@/types/city/city';
-import { Points, Point } from '@/types/point/point';
 import 'leaflet/dist/leaflet.css';
+
+import useMap from '../../hooks/useMap';
+
+import { City } from '../../types/points';
+import { OfferDescription } from '../../types/offerDescription';
+
+import React from 'react';
 
 type MapProps = {
   city: City;
-  points: Points;
-  selectedPoint: Point | undefined;
+  height:number;
+  width:number;
+  offerList:OfferDescription[];
+  selectedOffer:OfferDescription;
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: 'img/pin.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13, 39],
+  iconUrl: '../../../markup/img/pin.svg',
+  iconSize: [25, 40],
+  iconAnchor: [20, 40]
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: 'img/pin-active.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13, 39],
+  iconUrl: '../../../markup/img/pin-active.svg',
+  iconSize: [25, 40],
+  iconAnchor: [20, 40]
 });
 
 function Map(props: MapProps): JSX.Element {
-  const { city, points, selectedPoint } = props;
+  const {city,height, width, offerList, selectedOffer} = props;
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if (map) {
-      const markerLayer = layerGroup().addTo(map);
-      points.forEach((point) => {
-        const marker = new Marker({
-          lat: point.lat,
-          lng: point.lng,
+    let isMounted = true;
+    if (isMounted){
+      if (map) {
+        map.setView([city.lat, city.lng], city.zoom);
+        const markerLayer = layerGroup().addTo(map);
+        offerList.forEach((point) => {
+          const marker = new Marker({
+            lat: point.location.latitude,
+            lng: point.location.longitude
+          });
+
+          marker
+            .setIcon(
+              selectedOffer !== undefined && point.id === selectedOffer.id
+                ? currentCustomIcon
+                : defaultCustomIcon
+            )
+            .addTo(markerLayer);
         });
-
-        marker
-          .setIcon(
-            selectedPoint !== undefined && point.title === selectedPoint.title
-              ? currentCustomIcon
-              : defaultCustomIcon
-          )
-          .addTo(markerLayer);
-      });
-
-      return () => {
-        map.removeLayer(markerLayer);
-      };
+        return () => {
+          map.removeLayer(markerLayer);
+          isMounted = false;
+        };
+      }
     }
-  }, [map, points, selectedPoint]);
+  }, [map, offerList, selectedOffer, city.zoom, city.lat, city.lng]);
 
-  return (
-    <section className="cities__map map" style={{ background: 'none' }}>
-      <div style={{ height: '500px' }} ref={mapRef}></div>
-    </section>
-  );
+  return <div style={{ height: `${height}px`, width: `${width}px`, margin: '0 auto' }} ref={mapRef} data-testid = 'map-test'></div>;
 }
 
-export default Map;
+export default React.memo(Map);
