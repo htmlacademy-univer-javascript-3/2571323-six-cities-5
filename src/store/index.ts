@@ -1,25 +1,19 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { createAPI } from '@/api';
-import { cityOffersReducer } from './city-offers/reducer';
-import { globalOffersReducer } from './global-offers/reducer';
-import { offerReducer } from './offer/reducer';
-import { userDataReducer } from './user-data/reducer';
+import { configureStore } from '@reduxjs/toolkit';
+import { createAPI } from '../services/api';
+import { redirect } from './middlewares/ridirect.ts';
 
-const api = createAPI();
+import { rootReducer } from './rootReducer.ts';
 
-const rootReducer = combineReducers({
-  cityOffersReducer,
-  globalOffersReducer,
-  offerReducer,
-  userDataReducer,
-});
+export const api = createAPI();
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer:rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
-        extraArgument: { api: api },
+        extraArgument: api,
       },
-    }),
+    }).concat(redirect),
 });
+
+export type State = ReturnType<typeof store.getState>;
